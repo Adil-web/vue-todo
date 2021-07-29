@@ -1,6 +1,6 @@
 <template>
   <div class="search-box">
-    <input type="text" v-model="title" />
+    <input v-on:keyup.enter="clickHandler" type="text" v-model="title" />
     <button @click="clickHandler">Создать</button>
   </div>
 </template>

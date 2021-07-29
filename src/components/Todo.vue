@@ -8,7 +8,7 @@
             @completeTodo="$emit('completeTodo', item.id)"
             @modalIsOpen="$emit('modalIsOpen', true)"
             :deleteTodo="deleteTodo" 
-            :modalIsOpen="modalIsOpen"
+            :modalOpen="modalOpen"
         />
     </ul>
 </template>
@@ -26,7 +26,7 @@ export default {
             required: true,
             type: Function
         },
-        modalIsOpen: {
+        modalOpen: {
             required: true
         }
     },

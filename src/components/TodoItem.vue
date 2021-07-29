@@ -1,15 +1,12 @@
 <template>
   <div>
-    <li
-      ref="todo"
-      class="todo-item todo-anim"
-    >
+    <li ref="todo" class="todo-item todo-anim">
       <div @click="$emit('completeTodo', todo.id)">
         {{ index + 1 + ". " + todo.title }}
       </div>
       <div class="icons">
         <span class="icon-completed" v-if="todo.completed">&#9745;</span>
-        <span class="icon-completed" @click="modalIsOpen(true)">&#9998;</span>
+        <span class="icon-completed" @click="modalOpen(todo.id, todo.title)">&#9998;</span>
         <span class="icon-delete" @click="deleteTodo(todo.id, $refs.todo)"
           >&#128465;</span
         >
@@ -33,9 +30,9 @@ export default {
       required: true,
       type: Function,
     },
-    modalIsOpen: {
-      required: true
-    }
+    modalOpen: {
+      required: true,
+    },
   },
   mounted() {
     setTimeout(() => this.$refs.todo.classList.remove("todo-anim"), 300);

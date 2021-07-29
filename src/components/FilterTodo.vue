@@ -36,4 +36,8 @@ export default {
   align-items: center;
   margin: 20px 0;
 }
+.filter-buttons select {
+  background-color: #041955;
+  color: white;
+}
 </style>
