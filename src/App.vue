@@ -18,7 +18,7 @@
     <EditModal
       v-if="modal"
       @modalClose="modalClose"
-      @setProductTitle="setProductTitle"
+      @setTodoTitle="setTodoTitle"
       :todoTitle="editTodoTitle"
     />
   </main>
@@ -197,7 +197,7 @@ export default {
         this.modal = false;
       }, 300);
     },
-    setProductTitle(title) {
+    setTodoTitle(title) {
       this.todos = this.todos.map((todo) => {
         if (todo.id === this.editProductId) {
           todo.title = title;

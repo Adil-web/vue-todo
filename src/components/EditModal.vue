@@ -29,7 +29,7 @@ export default {
   methods: {
     setTitle() {
       if (this.title.trim()) {
-        this.$emit("setProductTitle", this.title);
+        this.$emit("setTodoTitle", this.title);
         this.$emit("modalClose", this.$refs.modal);
       }
     },
