@@ -6,7 +6,7 @@
       v-model="search"
       type="text"
     />
-    <button @click="clickHandler">Find Abay's ass</button>
+    <button @click="clickHandler">Найти</button>
   </div>
 </template>
 

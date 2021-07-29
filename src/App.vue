@@ -101,6 +101,7 @@ export default {
   methods: {
     titleName(e) {
       this.title = e.target.value;
+      document.title = e.target.value;
       localStorage.setItem("title", this.title);
     },
     addTodo(todo) {
