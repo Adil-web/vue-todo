@@ -51,23 +51,22 @@ input:focus {
 }
 
 button {
-    font-weight: 600;
-    color: #fff;
-    background-color: #eb06ff;
-    border: none;
-    border-radius: 3px;
-    transition: .5s ease;
-    cursor: pointer;
-    box-shadow: 0 0 0 0 rgb(231, 108, 255);
+  font-weight: 600;
+  color: #fff;
+  background-color: #eb06ff;
+  border: none;
+  border-radius: 3px;
+  transition: 0.5s ease;
+  cursor: pointer;
+  box-shadow: 0 0 0 0 rgb(231, 108, 255);
 
-    margin-left: 20px;
-    padding: 12px 20px;
+  margin-left: 20px;
+  padding: 12px 20px;
 }
 
 button:hover {
-    filter: brightness(1.1);
+  filter: brightness(1.1);
 }
-
 
 button:focus {
   outline: none;
@@ -75,10 +74,10 @@ button:focus {
 }
 
 .search-box {
-    display: flex;
-    max-width: 1000px;
+  display: flex;
+  max-width: 1000px;
 
-    margin: 0 auto;
+  margin: 0 auto;
 }
 
 @media screen and (max-width: 400px) {

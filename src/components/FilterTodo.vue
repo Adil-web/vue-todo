@@ -1,10 +1,17 @@
 <template>
   <div class="filter-buttons">
-    <select id="select" v-model="selected" @change="$emit('filterTodos', selected)">
-        <option v-for="select in selectFilter"
-            :value="select.value" 
-            :key="select.value"
-        >{{select.title}}</option>
+    <select
+      id="select"
+      v-model="selected"
+      @change="$emit('filterTodos', selected)"
+    >
+      <option
+        v-for="select in selectFilter"
+        :value="select.value"
+        :key="select.value"
+      >
+        {{ select.title }}
+      </option>
     </select>
   </div>
 </template>
@@ -14,18 +21,18 @@ export default {
   props: {
     selectFilter: {
       required: true,
-      type: Array
-    }
+      type: Array,
+    },
   },
   data() {
     return {
-      selected: localStorage.getItem('seleсted') || 'all'
-    }
+      selected: localStorage.getItem("seleсted") || "all",
+    };
   },
   created() {
-    this.seleсted = localStorage.getItem('seleсted') || 'all'
-    console.log(this.selected)
-  }
+    this.seleсted = localStorage.getItem("seleсted") || "all";
+    console.log(this.selected);
+  },
 };
 </script>
 

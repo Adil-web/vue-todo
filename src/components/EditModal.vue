@@ -5,7 +5,12 @@
         &times;
       </button>
       <div class="form">
-        <input v-model="title" class="form-control" type="text" v-on:keyup.enter="setTitle" />
+        <input
+          v-model="title"
+          class="form-control"
+          type="text"
+          v-on:keyup.enter="setTitle"
+        />
         <button @click="setTitle">Изменить</button>
       </div>
     </div>

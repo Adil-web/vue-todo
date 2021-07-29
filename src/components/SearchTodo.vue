@@ -1,6 +1,11 @@
 <template>
   <div>
-    <input v-on:keyup.enter="clickHandler" class="search-todo" v-model="search" type="text" />
+    <input
+      v-on:keyup.enter="clickHandler"
+      class="search-todo"
+      v-model="search"
+      type="text"
+    />
     <button @click="clickHandler">Find Abay's ass</button>
   </div>
 </template>

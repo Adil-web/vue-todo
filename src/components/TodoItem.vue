@@ -6,7 +6,9 @@
       </div>
       <div class="icons">
         <span class="icon-completed" v-if="todo.completed">&#9745;</span>
-        <span class="icon-completed" @click="modalOpen(todo.id, todo.title)">&#9998;</span>
+        <span class="icon-completed" @click="modalOpen(todo.id, todo.title)"
+          >&#9998;</span
+        >
         <span class="icon-delete" @click="deleteTodo(todo.id, $refs.todo)"
           >&#128465;</span
         >
