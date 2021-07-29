@@ -1,13 +1,23 @@
 <template>
   <main>
-    <h1>{{ title }}</h1>
-    <AddTodo @addTodo="addTodo" />
-    <FilterTodo @filterTodos="filterTodos" />
-    <!-- <SearchTodo/> -->
+    <div class="title">
+      &#9998;
+      <input type="text" v-model="title" @input="titleName($event)" />
+    </div>
+    <div>
+      <AddTodo @addTodo="addTodo" />
+    </div>
+    <FilterTodo @filterTodos="filterTodos" :selectFilter="selectFilter" />
+    <SearchTodo @searchTodo="searchTodo" />
     <TodoList
       :todos="todos"
       @completeTodo="completeTodo"
       :deleteTodo="deleteTodo"
+      :modalIsOpen="modalIsOpen"
+    />
+    <EditModal 
+        v-if="modal" 
+        :modalIsOpen="modalIsOpen"
     />
   </main>
 </template>
@@ -16,22 +26,62 @@
 import AddTodo from "./components/AddTodo.vue";
 import TodoList from "./components/Todo.vue";
 import FilterTodo from "./components/FilterTodo.vue";
-// import SearchTodo from './components/SearchTodo.vue'
+import SearchTodo from "./components/SearchTodo.vue";
+import EditModal from "./components/EditModal.vue";
 
 export default {
   components: {
     TodoList,
-    // SearchTodo,
+    SearchTodo,
     AddTodo,
     FilterTodo,
+    EditModal,
   },
   data() {
     return {
-      title: "Todo",
-      todos: JSON.parse(localStorage.getItem("todos")),
+      modal: true,
+      title: localStorage.getItem("title") || "Todo",
+      todos: JSON.parse(localStorage.getItem("todos")) || [
+        {
+          id: 1,
+          title: "Buy products",
+          completed: false,
+        },
+        {
+          id: 2,
+          title: "Feed the pet",
+          completed: true,
+        },
+        {
+          id: 3,
+          title: "Repair site",
+          completed: false,
+        },
+      ],
+      selectFilter: JSON.parse(localStorage.getItem("selectFilter")) || [
+        {
+          title: "Все",
+          value: "all",
+          selected: true,
+        },
+        {
+          title: "Выполнено",
+          value: "completed",
+          selected: false,
+        },
+        {
+          title: "Невыполнено",
+          value: "uncompleted",
+          selected: false,
+        },
+      ],
     };
   },
   methods: {
+    titleName(e) {
+      this.title = e.target.value;
+      localStorage.setItem("title", this.title);
+    },
     addTodo(todo) {
       if (todo.trim()) {
         this.todos.push({
@@ -50,47 +100,69 @@ export default {
         return todo;
       });
       localStorage.setItem("todos", JSON.stringify(this.todos));
+      localStorage.setItem("allTodos", JSON.stringify(this.todos));
     },
     filterTodos(isCompleted) {
-      const prevData = JSON.parse(localStorage.getItem("todos"));
+      console.log(isCompleted);
+      localStorage.setItem("seleсted", isCompleted);
+      const prevData = JSON.parse(localStorage.getItem("allTodos"));
       if (isCompleted === "all") {
         this.todos = prevData;
-      } else {
-        this.todos = prevData;
-        this.todos = this.todos.filter(
-          (todo) => todo.completed === isCompleted
-        );
+        this.selectFilter[0].selected = true;
+        this.selectFilter[1].selected = false;
+        this.selectFilter[2].selected = false;
+        localStorage.setItem("todos", JSON.stringify(this.todos));
       }
+      if (isCompleted === "completed") {
+        this.todos = prevData;
+        this.todos = this.todos.filter((todo) => todo.completed === true);
+        this.selectFilter[0].selected = false;
+        this.selectFilter[1].selected = true;
+        this.selectFilter[2].selected = false;
+        localStorage.setItem("todos", JSON.stringify(this.todos));
+      }
+      if (isCompleted === "uncompleted") {
+        this.todos = prevData;
+        this.todos = this.todos.filter((todo) => todo.completed === false);
+        this.selectFilter[0].selected = false;
+        this.selectFilter[1].selected = false;
+        this.selectFilter[2].selected = true;
+        localStorage.setItem("todos", JSON.stringify(this.todos));
+      }
+      localStorage.setItem("selectFilter", JSON.stringify(this.selectFilter));
     },
     deleteTodo(id, ref) {
-      ref.classList.add('todo-anim');
+      ref.classList.add("todo-anim");
       setTimeout(() => {
         this.todos = this.todos.filter((todo) => todo.id !== id);
         localStorage.setItem("todos", JSON.stringify(this.todos));
+        localStorage.setItem("allTodos", JSON.stringify(this.todos));
       }, 300);
     },
-  },
-  created() {
-    localStorage.setItem(
-      "todos",
-      JSON.stringify([
-        {
-          id: 1,
-          title: "To become a middle",
-          completed: false,
-        },
-        {
-          id: 2,
-          title: "To become a senior",
-          completed: true,
-        },
-        {
-          id: 3,
-          title: "Celebrate and sack some dik",
-          completed: false,
-        },
-      ])
-    );
+    searchTodo(value) {
+      this.todos = JSON.parse(localStorage.getItem("todos"));
+      this.todos = this.todos.filter((todo) => {
+        if (todo.title.includes(value.trim())) {
+          return true;
+        }
+        return false;
+      });
+    },
+    changeTodo(id, e) {
+      console.log(e.target.value);
+      this.todos = this.todos.map(todo => {
+        if(+todo.id === +id) {
+          todo.title = e.target.value
+        }
+        return todo
+      });
+      localStorage.setItem('todos', this.todos)
+      localStorage.setItem('allTodos', this.todos)
+    },
+    modalIsOpen(value) {
+      console.log(value)
+      this.modal = value
+    }
   },
 };
 </script>
@@ -102,6 +174,7 @@ main {
   text-align: center;
 }
 body {
+  position: relative;
   font-family: "Montserrat", sans-serif;
   color: #ffffff;
   background-color: #3450a1;
@@ -111,8 +184,27 @@ body {
   box-sizing: border-box;
 }
 
+.title {
+  margin: 30px 0;
+  width: 100%;
+}
+
+.title input {
+  min-width: inherit;
+  color: white;
+  font-size: 20px;
+  text-align: center;
+  background: transparent;
+  border: none;
+  overflow-x: hidden;
+}
+
+.title input:hover {
+  border: 1px solid white;
+}
+
 .todo-anim {
-  transition: .5s;
+  transition: 0.5s;
   transform: translateX(-100px) !important;
   opacity: 0;
 }

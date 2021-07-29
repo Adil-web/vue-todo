@@ -3,13 +3,13 @@
     <li
       ref="todo"
       class="todo-item todo-anim"
-      @click="$emit('completeTodo', todo.id)"
     >
-      <div>
+      <div @click="$emit('completeTodo', todo.id)">
         {{ index + 1 + ". " + todo.title }}
       </div>
       <div class="icons">
         <span class="icon-completed" v-if="todo.completed">&#9745;</span>
+        <span class="icon-completed" @click="modalIsOpen(true)">&#9998;</span>
         <span class="icon-delete" @click="deleteTodo(todo.id, $refs.todo)"
           >&#128465;</span
         >
@@ -33,6 +33,9 @@ export default {
       required: true,
       type: Function,
     },
+    modalIsOpen: {
+      required: true
+    }
   },
   mounted() {
     setTimeout(() => this.$refs.todo.classList.remove("todo-anim"), 300);
@@ -42,6 +45,7 @@ export default {
 
 <style scoped>
 .todo-item {
+  user-select: none;
   font-size: 1rem;
   display: flex;
   justify-content: space-between;
@@ -52,14 +56,28 @@ export default {
   transition: 0.2s ease-out;
   box-shadow: 0 5px 5px 0px #041a558f;
   cursor: pointer;
+  white-space: wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
 
   margin: 10px 0;
   padding: 15px 20px;
 }
 
+.todo {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-size: 1rem;
+}
+.todo:hover {
+  border: 1px solid white;
+}
+
 .todo-item:hover {
   filter: brightness(1.3);
   transform: translateY(-1px);
+  border: 1px solid #eb06ff;
 }
 
 .todo-anim {
@@ -82,10 +100,6 @@ export default {
 }
 
 .icon-delete {
-  color: red;
-  cursor: pointer;
-}
-.icon-delete:hover {
   color: red;
   cursor: pointer;
 }

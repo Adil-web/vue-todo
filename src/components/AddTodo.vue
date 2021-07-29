@@ -14,7 +14,7 @@ export default {
   },
   methods: {
     clickHandler() {
-      if (this.title) {
+      if (this.title.trim()) {
         this.$emit("addTodo", this.title);
       }
       this.title = "";
@@ -79,5 +79,16 @@ button:focus {
     max-width: 1000px;
 
     margin: 0 auto;
+}
+
+@media screen and (max-width: 400px) {
+  .search-box {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  button {
+    margin-top: 20px;
+  }
 }
 </style>

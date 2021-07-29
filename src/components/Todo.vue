@@ -6,7 +6,9 @@
             :todo="item" 
             :index="index" 
             @completeTodo="$emit('completeTodo', item.id)"
+            @modalIsOpen="$emit('modalIsOpen', true)"
             :deleteTodo="deleteTodo" 
+            :modalIsOpen="modalIsOpen"
         />
     </ul>
 </template>
@@ -23,6 +25,9 @@ export default {
         deleteTodo: {
             required: true,
             type: Function
+        },
+        modalIsOpen: {
+            required: true
         }
     },
     components: {
